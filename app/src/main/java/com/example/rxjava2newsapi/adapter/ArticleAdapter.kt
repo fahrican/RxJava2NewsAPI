@@ -17,7 +17,7 @@ class ArticleAdapter(
     private var articleList: ArrayList<Article>
 ) : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
 
-    private val duckDuckGoPicture = "https://pbs.twimg.com/profile_images/467502291415617536/SP8_ylk9.png"
+    private val placeHolderImage = "https://pbs.twimg.com/profile_images/467502291415617536/SP8_ylk9.png"
     private lateinit var viewGroupContext: Context
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): ArticleViewHolder {
@@ -47,7 +47,7 @@ class ArticleAdapter(
     private fun checkForUrlToImage(article: Article, articleViewHolder: ArticleViewHolder) {
         if (article.urlToImage == null || article.urlToImage.isEmpty()) {
             Picasso.get()
-                .load(duckDuckGoPicture)
+                .load(placeHolderImage)
                 .centerCrop()
                 .fit()
                 .into(articleViewHolder.urlToImage)
