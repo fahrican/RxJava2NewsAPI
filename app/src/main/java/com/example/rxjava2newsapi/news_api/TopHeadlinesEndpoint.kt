@@ -15,7 +15,6 @@ interface TopHeadlinesEndpoint {
 
     @GET("everything")
     fun getUserSearchInput(
-        @Query("country") country: String,
         @Query("apiKey") apiKey: String,
         @Query("q") q: String
     ): Observable<TopHeadlines>
