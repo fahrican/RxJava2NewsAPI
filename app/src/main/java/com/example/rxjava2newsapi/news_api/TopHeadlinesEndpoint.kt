@@ -13,7 +13,7 @@ interface TopHeadlinesEndpoint {
         @Query("apiKey") apiKey: String
     ): Observable<TopHeadlines>
 
-    @GET("everything")
+    @GET("top-headlines")
     fun getUserSearchInput(
         @Query("apiKey") apiKey: String,
         @Query("q") q: String
