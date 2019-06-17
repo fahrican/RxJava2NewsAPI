@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import com.example.rxjava2newsapi.R
 import com.example.rxjava2newsapi.adapter.ArticleAdapter
 import com.example.rxjava2newsapi.model.Article
@@ -71,6 +72,14 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    private fun checkUserKeywordInput() {
+        if (userKeywordInput.isEmpty()) {
+            queryTopHeadlines()
+        } else {
+            getKeyWordQuery(userKeywordInput)
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         if (menu != null) {
             val inflater: MenuInflater = menuInflater
@@ -109,11 +118,23 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         if (queryText != null && queryText.length > 1) {
             userKeywordInput = queryText
             getKeyWordQuery(queryText)
-        } else if (queryText != null || queryText == "") {
+        } else if (queryText != null && queryText == "") {
             userKeywordInput = ""
             queryTopHeadlines()
         }
         return false
+    }
+
+
+    private fun getKeyWordQuery(userKeywordInput: String) {
+        swipe_refresh.isRefreshing = true
+        if (userKeywordInput != null && userKeywordInput.isNotEmpty()) {
+            topHeadlinesObservable = topHeadlinesEndpoint.getUserSearchInput(newsApiConfig, userKeywordInput)
+            articleList.clear()
+            getObservableOfArticle()
+        } else {
+            queryTopHeadlines()
+        }
     }
 
     private fun queryTopHeadlines() {
@@ -163,17 +184,5 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
             //Add RxJava2CallAdapterFactory as a Call adapter when building your Retrofit instance
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
-    }
-
-    private fun checkUserKeywordInput() {
-        if (userKeywordInput.isEmpty()) {
-            queryTopHeadlines()
-        } else {
-            getKeyWordQuery(userKeywordInput)
-        }
-    }
-
-    private fun getKeyWordQuery(userKeywordInput: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
