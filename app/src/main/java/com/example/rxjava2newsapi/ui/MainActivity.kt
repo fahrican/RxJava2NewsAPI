@@ -172,6 +172,21 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         }
     }
 
+    private fun showArticlesOnRecyclerView() {
+        if (articleList.size > 0) {
+            empty_text.visibility = View.GONE
+            retry_fetch_button.visibility = View.GONE
+            recycler_view.visibility = View.VISIBLE
+            articleAdapter.setArticles(articleList)
+        } else {
+            recycler_view.visibility = View.GONE
+            empty_text.visibility = View.VISIBLE
+            retry_fetch_button.visibility = View.VISIBLE
+            retry_fetch_button.setOnClickListener { checkUserKeywordInput() }
+        }
+        swipe_refresh.isRefreshing = false
+    }
+
     private fun generateRetrofitBuilder(): Retrofit {
 
         return Retrofit.Builder()
