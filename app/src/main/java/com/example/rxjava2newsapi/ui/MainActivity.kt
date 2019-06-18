@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
             topHeadlinesObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap {
-                    Observable.fromArray(it.articles)
+                    Observable.fromIterable(it.articles)
                 }
                 .subscribeWith(callbackArticleObserver())
         )
