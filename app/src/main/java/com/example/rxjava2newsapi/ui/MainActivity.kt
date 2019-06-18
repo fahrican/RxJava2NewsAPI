@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var newsApiConfig: String
     private lateinit var articleAdapter: ArticleAdapter
     private lateinit var articleList: ArrayList<Article>
-    private lateinit var userKeywordInput: String
+    private lateinit var userKeyWordInput: String
     // RxJava related fields
     private lateinit var topHeadlinesObservable: Observable<TopHeadlines>
     private lateinit var compositeDisposable: CompositeDisposable
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         articleList = ArrayList()
         articleAdapter = ArticleAdapter(articleList)
         //When the app is launched of course the user input is empty.
-        userKeywordInput = ""
+        userKeyWordInput = ""
         //CompositeDisposable is needed to avoid memory leaks
         compositeDisposable = CompositeDisposable()
         recycler_view.setHasFixedSize(true)
@@ -73,10 +73,10 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun checkUserKeywordInput() {
-        if (userKeywordInput.isEmpty()) {
+        if (userKeyWordInput.isEmpty()) {
             queryTopHeadlines()
         } else {
-            getKeyWordQuery(userKeywordInput)
+            getKeyWordQuery(userKeyWordInput)
         }
     }
 
@@ -114,12 +114,12 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         }
     }
 
-    private fun checkQueryText(queryText: String?): Boolean {
-        if (queryText != null && queryText.length > 1) {
-            userKeywordInput = queryText
-            getKeyWordQuery(queryText)
-        } else if (queryText != null && queryText == "") {
-            userKeywordInput = ""
+    private fun checkQueryText(userInput: String?): Boolean {
+        if (userInput != null && userInput.length > 1) {
+            userKeyWordInput = userInput
+            getKeyWordQuery(userInput)
+        } else if (userInput != null && userInput == "") {
+            userKeyWordInput = ""
             queryTopHeadlines()
         }
         return false
@@ -130,7 +130,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         swipe_refresh.isRefreshing = true
         if (userKeywordInput != null && userKeywordInput.isNotEmpty()) {
             topHeadlinesObservable = topHeadlinesEndpoint.getUserSearchInput(newsApiConfig, userKeywordInput)
-            articleList.clear()
             getObservableOfArticle()
         } else {
             queryTopHeadlines()
@@ -150,9 +149,6 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap {
                     Observable.fromArray(it.articles)
-                }
-                .flatMapIterable { listOfArticles ->
-                    listOfArticles
                 }
                 .subscribeWith(callbackArticleObserver())
         )
