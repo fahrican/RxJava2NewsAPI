@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     override fun onRefresh() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        checkUserKeywordInput()
     }
 
     private fun checkUserKeywordInput() {
