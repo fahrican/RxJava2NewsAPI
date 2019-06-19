@@ -155,11 +155,11 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
                 .flatMap {
                     Observable.fromIterable(it.articles)
                 }
-                .subscribeWith(callbackArticleObserver())
+                .subscribeWith(createArticleObserver())
         )
     }
 
-    private fun callbackArticleObserver(): DisposableObserver<Article> {
+    private fun createArticleObserver(): DisposableObserver<Article> {
         return object : DisposableObserver<Article>() {
             override fun onNext(article: Article) {
                 if (!articleList.contains(article)) {
@@ -172,7 +172,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
             }
 
             override fun onError(e: Throwable) {
-                Log.e("callbackArticleObserver", "Article error: ${e.message}")
+                Log.e("createArticleObserver", "Article error: ${e.message}")
             }
         }
     }
