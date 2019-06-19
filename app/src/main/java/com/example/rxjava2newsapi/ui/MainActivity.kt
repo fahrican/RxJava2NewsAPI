@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         swipe_refresh.isRefreshing = true
         if (userKeywordInput != null && userKeywordInput.isNotEmpty()) {
             topHeadlinesObservable = topHeadlinesEndpoint.getUserSearchInput(newsApiConfig, userKeywordInput)
-            getObservableOfArticle()
+            subscribeObservableOfArticle()
         } else {
             queryTopHeadlines()
         }
@@ -144,10 +144,10 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
     private fun queryTopHeadlines() {
         swipe_refresh.isRefreshing = true
         topHeadlinesObservable = topHeadlinesEndpoint.getTopHeadlines("us", newsApiConfig)
-        getObservableOfArticle()
+        subscribeObservableOfArticle()
     }
 
-    private fun getObservableOfArticle() {
+    private fun subscribeObservableOfArticle() {
         articleList.clear()
         compositeDisposable.add(
             topHeadlinesObservable.subscribeOn(Schedulers.io())
