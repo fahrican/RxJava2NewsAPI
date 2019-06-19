@@ -68,6 +68,11 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         checkUserKeywordInput()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
+    }
+
     override fun onRefresh() {
         checkUserKeywordInput()
     }
